@@ -14,6 +14,7 @@ struct Lista {
 	int cantidad;
 };
 
+typedef struct Lista *ListaEnteros;
 
 ListaEnteros crearListaEnteros(){
 
