@@ -239,8 +239,37 @@ TipoRet ATTRIB (TDirectorio &sistema, Cadena nombreArchivo, Cadena permiso /*nom
 }
 
 TipoRet IF (TDirectorio &sistema, Cadena nombreArchivo, Cadena texto){
-        return NO_IMPLEMENTADA;
+
+         if (existFileDirectory(sistema, nombreArchivo)) {
+                TArchivo archivo = getFileDirectory(sistema, nombreArchivo);
+                 if (haveWritePermission(archivo)) {
+                // Obtener el contenido actual del archivo
+                TLinea contenidoActual = getFirstRow(archivo);
+
+                // Concatenar el nuevo texto al contenido actual
+                std::string nuevoContenido = texto +  getNextRow(contenidoActual);
+
+                // Truncar si excede TEXTO_MAX
+                if (nuevoContenido.length() > TEXTO_MAX) {
+                        nuevoContenido = nuevoContenido.substr(0, TEXTO_MAX);
+                }
+
+                // Insertar el nuevo contenido en el archivo
+                insertTextFile(sistema, nombreArchivo, nuevoContenido.c_str());
+
+                return OK;
+        } else {
+                printf("Error - el archivo no tiene permisos de escritura");
+                return ERROR;
+                }
+    } else {
+        printf("Error - No existe el archivo");
+        return ERROR;
+    }
+
+    return NO_IMPLEMENTADA;
 }
+
 
 TipoRet IN (TDirectorio &sistema, Cadena nombreArchivo, Cadena texto){
         return NO_IMPLEMENTADA;
