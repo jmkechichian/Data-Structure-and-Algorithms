@@ -185,10 +185,15 @@ TipoRet CREATE (TDirectorio &sistema, Cadena nombreArchivo){
 }
 
 TipoRet DELETE (TDirectorio &sistema, Cadena nombreArchivo){
+         //if( haveWritePermission (archivo))
+        //destroyFile (archivo)
+        //return OK;
+        //else return Error - el archivo no tiene permisos de escritura
         return NO_IMPLEMENTADA;
 }
 
 TipoRet ATTRIB (TDirectorio &sistema, Cadena nombreArchivo, Cadena nombrearchivo){
+        //cambiar permisos de escritura a false
         return NO_IMPLEMENTADA;
 }
 
