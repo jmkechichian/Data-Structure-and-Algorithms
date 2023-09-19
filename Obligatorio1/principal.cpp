@@ -185,16 +185,57 @@ TipoRet CREATE (TDirectorio &sistema, Cadena nombreArchivo){
 }
 
 TipoRet DELETE (TDirectorio &sistema, Cadena nombreArchivo){
-         //if( haveWritePermission (archivo))
-        //destroyFile (archivo)
-        //return OK;
-        //else return Error - el archivo no tiene permisos de escritura
-        return NO_IMPLEMENTADA;
+       bool existeArchivo = existFileDirectory(sistema,nombreArchivo);
+       if(existeArchivo){
+                TArchivo archivoDelete = getFileDirectory(sistema, nombreArchivo);
+                if( haveWritePermission (archivoDelete) == true){
+                        destroyFile (archivoDelete);
+                        return OK;
+                }
+                else if( haveWritePermission (archivoDelete) != true){
+                        printf("Error - el archivo no tiene permisos de escritura");
+                        return ERROR;
+                } 
+       }else if(!existeArchivo){
+                printf("Error - No existe el archivo");
+                return ERROR;
+       }
+        else{
+                return NO_IMPLEMENTADA;
+        }        
 }
 
-TipoRet ATTRIB (TDirectorio &sistema, Cadena nombreArchivo, Cadena nombrearchivo){
-        //cambiar permisos de escritura a false
-        return NO_IMPLEMENTADA;
+TipoRet ATTRIB (TDirectorio &sistema, Cadena nombreArchivo, Cadena permiso /*nombrearchivo NO ENTIENDO*/){
+        bool existeArchivo = existFileDirectory(sistema,nombreArchivo);
+       if(existeArchivo){
+                TArchivo archivoAtr = getFileDirectory(sistema, nombreArchivo);
+                if( permiso == "+W" && haveWritePermission (archivoAtr) == true){
+                        printf("El Archivo tiene permiso de escritura");
+                        return OK;
+                }
+                else if( permiso == "+W" && haveWritePermission (archivoAtr) != true){
+                        bool permisoEscritura = true;
+                        setFilePermission(sistema, nombreArchivo, permisoEscritura);
+                        printf("Se modifico el permiso");
+                        return OK;
+                }
+                else if( permiso == "-W" && haveWritePermission (archivoAtr) == true){
+                        bool permisoEscritura = false;
+                        setFilePermission(sistema, nombreArchivo, permisoEscritura);
+                        printf("Se modifico el permiso");
+                        return OK;
+                }
+                    else if( permiso == "-W" && haveWritePermission (archivoAtr) != true){
+                        printf("Se modifico el permiso");
+                        return OK;
+                }
+       }else if(!existeArchivo){
+                printf("Error - No existe el archivo");
+                return ERROR;
+       }
+        else{
+                return NO_IMPLEMENTADA;
+        }        
 }
 
 TipoRet IF (TDirectorio &sistema, Cadena nombreArchivo, Cadena texto){
