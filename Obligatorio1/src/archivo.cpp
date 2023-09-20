@@ -269,7 +269,7 @@ void insertChartsFirstRow(TArchivo &archivo, Cadena texto){
         TFila primeraFila = archivo->fila;
 
         // Insertar la línea al inicio de la primera fila
-        insertRow(primeraFila);
+        //insertRow(primeraFila);
     }
 }
 
