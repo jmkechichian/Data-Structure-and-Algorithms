@@ -31,9 +31,10 @@ bool isEmptyRow(TFila fila){
 }
 
 //Pos-Condición Inserta una nueva fila al principio de "fila"
- void insertRow (TFila &fila){
+ void insertRow (TFila &fila, TLinea linea){
     TFila nuevaFila = createRow(); // Crear una nueva fila vacía
     nuevaFila->siguiente = fila; // Establecer la fila actual como siguiente de la nueva fila
+    nuevaFila-> elemento = linea;// Insertar la linea en la fila
     fila = nuevaFila; // Actualizar el puntero a fila con la nueva fila creada
     fila -> cantFila++;
  }
