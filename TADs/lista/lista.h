@@ -6,7 +6,7 @@ typedef Lista * ListaEnteros;
 
 // Pre-condicion: No
 //Pos - Condicion: Retorna un puntero a una lista vacia
-crearListaEnteros();
+Lista crearListaEnteros();
 
 //PosCon: Agrega el entero al final de la lista
 void agregarEnteroLista(ListsEnteros &lista, int entero);
