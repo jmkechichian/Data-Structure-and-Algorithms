@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+typedef char* Cadena;
 
 
 //Enumeracion para el tipo de archivo
@@ -17,11 +18,12 @@ enum Tipo_archivo{
 };
 
 struct _rep_archivo{
-    Cadena nombreArchivo;
-    char extension[3]; // Campo para representar la extensión del archivo
+    char* nombreArchivo;
+    char* extension; // Campo para representar la extensión del archivo
     Tipo_archivo tipo_archivo;
     TFila fila;
 };
+
 
 //Crea un archivo vacío con nombre nombreArchivo, extensión extension y con permiso de lectura/escritura
 //El archivo no contiene filas.
@@ -49,13 +51,14 @@ bool haveWritePermission (TArchivo archivo){
 
 //retorna true si archivo no tiene filas;
 bool isEmptyFile(TArchivo archivo){
-    return NULL;
+    return archivo->fila == NULL;
 }
 
 //pos-condición: Retorna un puntero a la linea de la primer fila del archivo "archivo"
 TLinea getFirstRow (TArchivo archivo){
     return headRow(archivo->fila);
 }
+
 //Retorna un puntero a la siguiente Fila de archivo
 TLinea getNextRow (TArchivo archivo){
     if (archivo != NULL) {
@@ -137,15 +140,9 @@ void printLineFile(TArchivo archivo, int numero_linea){
                     actual = nextLine(actual);
                 }
                 printf("\n");
-            } else {
-                printf("La línea indicada no existe en el archivo.\n");
-            }
-        } else {
-            printf("La fila indicada no existe en el archivo.\n");
-        }
-    } else {
-        printf("El archivo o el número de línea son inválidos.\n");
-    }
+            } 
+        } 
+    } 
 }
 
 
@@ -244,17 +241,15 @@ void insertChartsNewRow(TArchivo &archivo, Cadena texto){
         }
 
         // Insertar la línea en la fila
-        insertRow(nuevaFila);
+        insertRow(nuevaFila /*nuevaLinea*/);
 
         // Insertar la fila al comienzo del archivo
-      //  nextRow(nuevaFila) = archivo->fila;
-      //  archivo->fila = insertRow (nuevaFila);
        nextRow(nuevaFila);
        insertRow (nuevaFila);
     }
 }
 //pre-condicion El archivo tiene por lo menos una fila
-//Inserta el texto "texto" al inicio de la primer fila del archivo
+//Ins0erta el texto "texto" al inicio de la primer fila del archivo
 void insertChartsFirstRow(TArchivo &archivo, Cadena texto){
   if (archivo != NULL && texto != NULL && archivo->fila != NULL) {
         // Crear una nueva línea vacía
@@ -269,7 +264,7 @@ void insertChartsFirstRow(TArchivo &archivo, Cadena texto){
         TFila primeraFila = archivo->fila;
 
         // Insertar la línea al inicio de la primera fila
-        //insertRow(primeraFila);
+        insertRow(primeraFila);
     }
 }
 
