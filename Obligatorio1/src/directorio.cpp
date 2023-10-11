@@ -25,7 +25,7 @@ struct _rep_directorio {
 };*/
 
 struct listaArchivo{
-     _rep_archivo archivo;
+     TArchivo archivo;
      listaArchivo* sig;
 };
 
@@ -64,7 +64,7 @@ bool existFileDirectory(TDirectorio directorio, Cadena nombreArchivo){
 
         listaArchivo* actual = directorio -> cabeza;
         while(actual != NULL){
-            if (strcmp(nombreArchivo, actual->archivo->nombreArchivo) == 0) {
+            if (strcmp(getFileName(actual->archivo), nombreArchivo)==0) {
             // Se encontró el archivo, devuelve true
             return true;
         }
@@ -83,7 +83,7 @@ TArchivo getFileDirectory(TDirectorio directorio, Cadena nombreArchivo){
     if(existFileDirectory( directorio, nombreArchivo)){
         listaArchivo* actual = directorio->cabeza;
         while (actual != NULL) {
-            if (strcmp(actual->archivo.nombreArchivo, nombreArchivo) == 0) {
+            if (strcmp(getFileName(actual->archivo), nombreArchivo)==0) {
                 // Se encontró el archivo, devuelve un puntero a la estructura TArchivo
                 return actual->archivo;
             }   
@@ -93,29 +93,33 @@ TArchivo getFileDirectory(TDirectorio directorio, Cadena nombreArchivo){
     }        
     return NULL;
 }
-/*
+
 //pre-condicion: No existe en directorio un archivo de nombre "nombreArchivo"
 //crea un archivo vacio con nombre nombreArchivo y permiso de lectura/escritura
 void createFileInDirectory(TDirectorio &directorio, Cadena nombreArchivo){
     
     if(!existFileDirectory( directorio, nombreArchivo)){
-     // Inicializar el nuevoArchivo
-     TArchivo nuevoArchivo = createEmptyFile(nombreArchivo,NULL);
-    if (directorio->primerArchivo == NULL) {
-        // Si la lista está vacía, el nuevo archivo se convierte en el primer elemento
-        directorio->primerArchivo = nuevoArchivo;
-    } else {
-        // Si la lista no está vacía, recorremos la lista hasta el último elemento
-        Lista actual = directorio->primerArchivo;
-        while (actual->sig != NULL) {
-            actual = actual->sig;
-        }
-        // Agregamos el nuevo archivo al final
-        actual->sig = nuevoArchivo;
-    }
-    directorio->numArchivos++;    
-    }      
-}*/
+        // Inicializar el nuevoArchivo
+        listaArchivo* aux = new listaArchivo;
+        TArchivo nuevoArchivo = createEmptyFile(nombreArchivo, nombreArchivo);
+        aux -> sig = NULL;
+
+            if (directorio->cabeza == NULL) {   
+                // Si la lista está vacía, el nuevo archivo se convierte en el primer elemento
+                directorio->cabeza = aux;     
+            } else {
+                // Si la lista no está vacía, recorremos la lista hasta el último elemento
+                
+                listaArchivo* actual = directorio->cabeza;
+                while (actual->sig != NULL) {
+                    actual = actual->sig;
+                }
+                // Agregamos el nuevo archivo al final
+                actual->archivo = nuevoArchivo;
+            }
+        directorio->numArchivos++;    
+    } 
+}
 /*
 //pre condicion: el archivo nombreArchivo existe en directorio
 //pos-condicion: inserta una nueva fila al comienzo del archivo nombreArchivo conteniendo los chars texto
