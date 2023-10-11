@@ -15,7 +15,7 @@ struct _rep_linea{
 };
 
 
-typedef struct _rep_linea *TLinea;
+typedef struct _rep_linea* TLinea;
 
 
 // Pos-condición: Crea una línea vacía
