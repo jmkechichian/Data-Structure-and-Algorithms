@@ -24,7 +24,7 @@ TFila createRow();
 bool isEmptyRow(TFila fila);
 
 //Pos-Condición Inserta una nueva fila al principio de "fila"
- void insertRow (TFila &fila);
+ void insertRow (TFila &fila, TLinea &linea);
  
 //pre-condicion: fila !=NULL
 //pos-condicion: retorna un puntero al primer nodo de la fila "fila"
