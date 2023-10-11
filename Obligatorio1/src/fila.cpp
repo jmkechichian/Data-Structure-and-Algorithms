@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+
 #include "../include/fila.h"
 #include "../include/linea.h"
 
@@ -17,8 +18,8 @@ struct _rep_fila {
     _rep_fila* siguiente;
     int cantFila;
 };
+typedef struct _rep_fila* TFila;
 
-typedef struct _rep_fila *TFila;
 
 //Pos-condición crea una fila vacía.
 TFila createRow(){
@@ -27,22 +28,32 @@ TFila createRow(){
 
 //Pos-Condición retorna true si la fila es vacía.
 bool isEmptyRow(TFila fila){
-    return  NULL;
+    return fila ==  NULL;
 }
 
 //Pos-Condición Inserta una nueva fila al principio de "fila"
- void insertRow (TFila &fila, TLinea linea){
+ void insertRow (TFila &fila, TLinea &linea){
     TFila nuevaFila = createRow(); // Crear una nueva fila vacía
-    nuevaFila->siguiente = fila; // Establecer la fila actual como siguiente de la nueva fila
-    nuevaFila-> elemento = linea;// Insertar la linea en la fila
-    fila = nuevaFila; // Actualizar el puntero a fila con la nueva fila creada
-    fila -> cantFila++;
+    TLinea nuevaLinea = createLine();
+    nuevaFila->siguiente = NULL; // Establecer la fila actual como siguiente de la nueva fila
+    nuevaFila-> elemento = nuevaLinea;// Insertar la linea en la fila
+    if(fila == NULL){
+        fila = nuevaFila;
+        fila -> cantFila++;
+    }
+    else{
+        TFila actual = fila;
+        while(actual->siguiente != NULL){
+            actual = actual -> siguiente;
+        }
+    }   fila -> cantFila++;
+    
  }
 
 //pre-condicion: fila !=NULL
 //pos-condicion: retorna un puntero al primer nodo de la fila "fila"
 TLinea headRow(TFila fila){
-    if (fila != NULL && fila->cantFila > 0) {
+    if (fila != NULL) {
         return fila->elemento;
     } else {
         return NULL;
@@ -80,3 +91,4 @@ void deleteRows (TFila& fila){
     }
     fila = NULL; // Importante para evitar usar la fila después de liberarla
 }
+
